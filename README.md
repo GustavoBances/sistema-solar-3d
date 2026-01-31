@@ -9,7 +9,7 @@
 
 **Simulación interactiva del sistema solar con física orbital real, datos científicos verificados y experiencia inmersiva en 3D**
 
-[🚀 Ver Demo en Vivo](#)  | [lbancesr@unprg.edu.pe](#contacto)
+[🚀 Ver Demo](https://sistema-solar-3d-lb.netlify.app/) | [📖 Documentación](#características) | [📧 Contacto](#contacto)
 
 </div>
 
