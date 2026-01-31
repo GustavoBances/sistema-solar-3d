@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema Solar 3D - Simulación en Tiempo Real de nivel profesional">
+    <meta name="keywords" content="sistema solar, planetas, 3D, educación, astronomía, simulación">
+    <meta name="author" content="Luis Gustavo Bances Riojas">
+    <title>Sistema Solar 3D | Simulación Profesional en Tiempo Real</title>
+    
+    <!-- 
+    ═══════════════════════════════════════════════════════════════
+    SISTEMA SOLAR 3D INTERACTIVO
+    Copyright © 2024 Luis Gustavo Bances Riojas
+    Todos los derechos reservados
+    
+    Contacto: lbancesr@unprg.edu.pe
+    Licencia: Uso educativo y personal únicamente
+    Uso comercial prohibido sin autorización escrita
+    ═══════════════════════════════════════════════════════════════
+    -->
+    
+    <!-- Fuentes Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700;800&family=Michroma&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loader Premium -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-spinner">
+                <div class="orbit-ring"></div>
+                <div class="orbit-ring"></div>
+                <div class="orbit-ring"></div>
+            </div>
+            <p class="loader-text">INICIALIZANDO SISTEMA SOLAR</p>
+            <div class="loader-progress">
+                <div class="loader-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Premium -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <div class="logo-orbit"></div>
+                <h1 class="logo">SOLAR<span class="logo-highlight">SYSTEM</span></h1>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn" id="toggleUI">
+                    <span class="nav-icon">⚙</span>
+                    <span class="nav-text">CONTROLES</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Panel de Estadísticas en Vivo -->
+    <aside class="stats-panel" id="statsPanel">
+        <div class="stats-header">
+            <div class="stats-title">
+                <span class="stats-icon">📊</span>
+                <h3>DATOS EN VIVO</h3>
+            </div>
+            <button class="minimize-btn" id="minimizeStats">−</button>
+        </div>
+        <div class="stats-content" id="statsContent">
+            <div class="stat-item">
+                <span class="stat-icon">🌍</span>
+                <div class="stat-info">
+                    <span class="stat-label">TIERRA</span>
+                    <span class="stat-value" id="earthDays">0 días</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">☀️</span>
+                <div class="stat-info">
+                    <span class="stat-label">DISTANCIA AL SOL</span>
+                    <span class="stat-value" id="earthSunDistance">149.6M km</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">⚡</span>
+                <div class="stat-info">
+                    <span class="stat-label">RENDIMIENTO</span>
+                    <span class="stat-value" id="fpsCounter">60 FPS</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Panel de Control Mejorado -->
+    <aside class="control-panel" id="controlPanel">
+        <div class="panel-header">
+            <h2>CENTRO DE CONTROL</h2>
+            <button class="close-btn" id="closePanel">✕</button>
+        </div>
+        
+        <!-- Sección de Tiempo -->
+        <div class="panel-section time-section">
+            <div class="section-header">
+                <span class="section-icon">⏰</span>
+                <h3>TIEMPO DE SIMULACIÓN</h3>
+            </div>
+            <div class="time-display" id="timeDisplay">
+                <div class="time-item">
+                    <div class="time-box">
+                        <span class="time-value" id="yearValue">0</span>
+                        <span class="time-label">AÑOS</span>
+                    </div>
+                </div>
+                <div class="time-separator">:</div>
+                <div class="time-item">
+                    <div class="time-box">
+                        <span class="time-value" id="dayValue">0</span>
+                        <span class="time-label">DÍAS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Velocidad -->
+        <div class="panel-section speed-section">
+            <div class="section-header">
+                <span class="section-icon">🚀</span>
+                <h3>VELOCIDAD DE SIMULACIÓN</h3>
+            </div>
+            <div class="speed-display">
+                <span class="speed-value" id="speedValue">1x</span>
+                <span class="speed-desc">(1 día/segundo)</span>
+            </div>
+            <div class="slider-container">
+                <input type="range" id="speedControl" min="1" max="100" value="1" step="1" class="slider speed-slider">
+                <div class="slider-markers">
+                    <span>1</span>
+                    <span>25</span>
+                    <span>50</span>
+                    <span>75</span>
+                    <span>100</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controles -->
+        <div class="panel-section controls-section">
+            <div class="section-header">
+                <span class="section-icon">🎮</span>
+                <h3>CONTROLES</h3>
+            </div>
+            <div class="control-buttons">
+                <button class="control-btn pause-btn" id="pauseBtn">
+                    <span class="btn-icon">⏸</span>
+                    <span class="btn-text">PAUSAR</span>
+                </button>
+                <button class="control-btn reset-btn" id="resetBtn">
+                    <span class="btn-icon">↺</span>
+                    <span class="btn-text">REINICIAR TODO</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Opciones de Visualización -->
+        <div class="panel-section options-section">
+            <div class="section-header">
+                <span class="section-icon">👁️</span>
+                <h3>VISUALIZACIÓN</h3>
+            </div>
+            <div class="option-toggles">
+                <label class="toggle-label">
+                    <input type="checkbox" id="showOrbits" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-text">ÓRBITAS</span>
+                </label>
+                <label class="toggle-label">
+                    <input type="checkbox" id="showLabels" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-text">NOMBRES</span>
+                </label>
+                <label class="toggle-label">
+                    <input type="checkbox" id="showStars" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-text">ESTRELLAS</span>
+                </label>
+                <label class="toggle-label">
+                    <input type="checkbox" id="showAsteroids" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-text">ASTEROIDES</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Funciones Científicas -->
+        <div class="panel-section scientific-section">
+            <div class="section-header">
+                <span class="section-icon">🔬</span>
+                <h3>FUNCIONES CIENTÍFICAS</h3>
+            </div>
+            <div class="scientific-buttons">
+                <button class="feature-btn" id="timelineBtn">
+                    <span class="btn-icon">📅</span>
+                    <span class="btn-text">TIMELINE HISTÓRICA</span>
+                </button>
+                <button class="feature-btn" id="sizeCompareBtn">
+                    <span class="btn-icon">📏</span>
+                    <span class="btn-text">COMPARAR TAMAÑOS</span>
+                </button>
+                <button class="feature-btn" id="moonsAsteroidsBtn">
+                    <span class="btn-icon">🌙</span>
+                    <span class="btn-text">LUNAS Y ASTEROIDES</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Selección de Planetas -->
+        <div class="panel-section planets-section">
+            <div class="section-header">
+                <span class="section-icon">🪐</span>
+                <h3>SELECCIONAR</h3>
+            </div>
+            <div class="planet-grid" id="planetGrid">
+                <!-- Se llenará dinámicamente con planetas y asteroides -->
+            </div>
+        </div>
+    </aside>
+
+    <!-- Panel de Información del Planeta -->
+    <aside class="info-panel" id="infoPanel">
+        <button class="close-btn" id="closeInfo">✕</button>
+        <div class="info-tabs">
+            <button class="tab-btn active" data-tab="general">General</button>
+            <button class="tab-btn" data-tab="missions">Misiones</button>
+            <button class="tab-btn" data-tab="scientific">Datos</button>
+        </div>
+        <div class="info-content" id="infoContent">
+            <!-- Se llenará dinámicamente -->
+        </div>
+    </aside>
+
+    <!-- Panel de Timeline Histórica -->
+    <aside class="timeline-panel" id="timelinePanel">
+        <div class="panel-header">
+            <h2>TIMELINE HISTÓRICA</h2>
+            <button class="close-btn" id="closeTimeline">✕</button>
+        </div>
+        <div class="timeline-content" id="timelineContent">
+            <!-- Se llenará dinámicamente -->
+        </div>
+    </aside>
+
+    <!-- Panel de Comparación de Tamaños -->
+    <aside class="size-compare-panel" id="sizeComparePanel">
+        <div class="panel-header">
+            <h2>COMPARACIÓN DE TAMAÑOS</h2>
+            <button class="close-btn" id="closeSizeCompare">✕</button>
+        </div>
+        <div class="size-compare-content" id="sizeCompareContent">
+            <!-- Se llenará dinámicamente -->
+        </div>
+    </aside>
+
+    <!-- Panel de Lunas y Asteroides -->
+    <aside class="moons-asteroids-panel" id="moonsAsteroidsPanel">
+        <div class="panel-header">
+            <h2>🌙 LUNAS Y ASTEROIDES FAMOSOS</h2>
+            <button class="close-btn" id="closeMoonsAsteroids">✕</button>
+        </div>
+        <div class="moons-asteroids-content" id="moonsAsteroidsContent">
+            <!-- Se llenará dinámicamente -->
+        </div>
+    </aside>
+
+    <!-- Canvas 3D -->
+    <div id="canvas-container" class="canvas-container">
+        <!-- Labels de planetas -->
+        <div id="planet-labels" class="planet-labels"></div>
+    </div>
+
+    <!-- Instrucciones -->
+    <div class="instructions">
+        <div class="instruction-item">
+            <span class="instruction-icon">🖱️</span>
+            <span>ARRASTRAR para rotar</span>
+        </div>
+        <div class="instruction-separator">•</div>
+        <div class="instruction-item">
+            <span class="instruction-icon">🔍</span>
+            <span>SCROLL para zoom</span>
+        </div>
+        <div class="instruction-separator">•</div>
+        <div class="instruction-item">
+            <span class="instruction-icon">👆</span>
+            <span>CLICK en planetas</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="planetData.js"></script>
+    <script src="solarSystem.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
