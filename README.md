@@ -130,7 +130,7 @@ Este proyecto nace como una herramienta educativa para estudiantes, entusiastas 
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/GustavoBances/sistema-solar-3d/edit/main/README.md
+git clone https://github.com/GustavoBances/sistema-solar-3d.git
 
 # 2. Abrir en VS Code
 cd sistema-solar-3d
